@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Add a leaf · Talbott Hall</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="banner" id="demo" hidden>Demo mode: leaves are saved only in this browser.</div>
+<header><h1>🍁 Add your leaf</h1><p>Snap a photo of your leaf, check the text, and watch the tree grow.</p></header>
+<main>
+<section class="box" id="s-pick">
+  <p>Write your goal or message on a leaf, then take a photo.<br>You keep the paper leaf!</p>
+  <label class="btn" for="cam">📷 Take a photo</label><input id="cam" type="file" accept="image/*" capture="environment">
+  <label class="btn alt" for="file">Choose from gallery</label><input id="file" type="file" accept="image/*">
+  <p><button class="btn alt" id="typeonly" type="button">Or just type it</button></p>
+</section>
+<section class="box" id="s-read" hidden><h2>Reading your leaf…</h2><div id="pct">…</div><p>The first time can take a few seconds.</p></section>
+<section class="box" id="s-edit" hidden>
+  <img id="preview" alt="Your leaf">
+  <p id="note"></p>
+  <form id="form">
+    <textarea id="text" required aria-label="Leaf text"></textarea>
+    <div class="row"><span>Edit freely</span><span id="len"></span></div>
+    <label><input type="checkbox" id="anon" checked> Post anonymously</label>
+    <label>First name (optional)<input type="text" id="name" autocomplete="given-name"></label>
+    <p><button class="btn" id="send">Add my leaf to the tree 🍁</button></p>
+    <button class="btn alt" type="button" id="retry">Rescan</button>
+  </form>
+</section>
+<section class="box" id="s-done" hidden><h2>Thank you! 🍂</h2><p>Your leaf is on the tree.</p>
+  <a class="btn" href="index.html">See the tree</a><button class="btn alt" id="again">Add another</button></section>
+</main><script type="module" src="js/add.js"></script></body></html>

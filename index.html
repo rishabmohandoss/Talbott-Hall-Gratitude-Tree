@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Talbott Hall Gratitude Tree</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="banner" id="demo" hidden>Demo mode: leaves are saved only in this browser. Add your Firebase config to go live.</div>
+<header><h1>🍁 Talbott Hall Gratitude Tree</h1>
+<p>Every leaf is a goal, a thank-you, or a little encouragement from a resident.</p>
+<a class="btn" href="add.html">Add your leaf</a></header>
+<main>
+<svg id="tree" role="img" aria-label="Tree growing with resident leaves"></svg>
+<p class="stats"><b id="count">0</b> leaves and growing · tap a leaf to read it</p>
+<h2>All leaves</h2><ul id="wall"></ul>
+</main>
+<div id="card" hidden><button aria-label="Close">×</button><p></p><small></small></div>
+<script type="module" src="js/tree.js"></script></body></html>

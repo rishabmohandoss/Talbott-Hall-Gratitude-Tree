@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Print QR</title><link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script></head>
+<body><main style="text-align:center"><h1>Scan to add your leaf 🍁</h1><div id="qr" style="display:inline-block;background:#fff;padding:16px"></div>
+<p id="url"></p><p>Print this page and place it by the leaf basket.</p></main>
+<script>const u=new URL("add.html",location.href).href;new QRCode(document.getElementById("qr"),{text:u,width:280,height:280});document.getElementById("url").textContent=u</script></body></html>
