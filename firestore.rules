@@ -11,6 +11,15 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // Counts how many photos went to the optional AI reader (capped at 100 in total).
+    match /meta/ocr {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['count']) && request.resource.data.count == 1;
+      allow update: if request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count == resource.data.count + 1 && request.resource.data.count <= 100;
+      allow delete: if false;
+    }
+
     // Private: anyone can add their email, nobody can read it from the website (only you, in the Firebase console).
     match /submissions/{id} {
       allow read, update, delete: if false;

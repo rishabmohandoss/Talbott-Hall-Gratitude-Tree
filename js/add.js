@@ -1,4 +1,4 @@
-import { addLeaf, MAX_TEXT, MAX_NAME, DEMO, NJIT_EMAIL } from "./data.js";
+import { aiRead, addLeaf, MAX_TEXT, MAX_NAME, DEMO, NJIT_EMAIL } from "./data.js";
 
 const $ = id => document.getElementById(id);
 const steps = { pick: $("s-pick"), read: $("s-read"), edit: $("s-edit"), done: $("s-done") };
@@ -37,6 +37,12 @@ async function scan(file) {
   try {
     const img = await createImageBitmap(file);
     const canvas = prep(img);
+    const color = document.createElement("canvas"), k = Math.min(1, 1280 / Math.max(img.width, img.height));
+    color.width = Math.round(img.width * k); color.height = Math.round(img.height * k);
+    color.getContext("2d").drawImage(img, 0, 0, color.width, color.height);
+    $("pct").textContent = "Reading…";
+    text = (await aiRead(color)).slice(0, MAX_TEXT);
+    if (text) { go("edit"); $("note").textContent = "Here's what we read. Fix anything that's off:"; $("text").value = text; upd(); return; }
     if (!window.Tesseract) await new Promise((ok, no) => {
       const s = document.createElement("script");
       s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
