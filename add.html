@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Add a leaf · Talbott Hall</title><link rel="stylesheet" href="style.css"></head><body>
 <div class="banner" id="demo" hidden>Demo mode: leaves are saved only in this browser.</div>
-<header><h1>🍁 Add your leaf</h1><p>Snap a photo of your leaf, check the text, and watch the tree grow.</p></header>
+<header><h1><span>Add your leaf</span></h1><p>Snap a photo of your leaf, check the text, and watch the tree grow.</p></header>
 <main>
 <section class="box" id="s-pick">
   <p>Write your goal or message on a leaf, then take a photo.<br>You keep the paper leaf!</p>
@@ -17,6 +17,8 @@
   <form id="form">
     <textarea id="text" required aria-label="Leaf text"></textarea>
     <div class="row"><span>Edit freely</span><span id="len"></span></div>
+    <label>NJIT email (required)<input type="email" id="email" required placeholder="ucid@njit.edu" autocomplete="email" pattern="[A-Za-z0-9._%+\-]+@[Nn][Jj][Ii][Tt]\.[Ee][Dd][Uu]"></label>
+    <p class="fine">🔒 Your email is only used to confirm you live in Talbott Hall. It will <b>never be shared</b> or shown on the tree.</p>
     <label><input type="checkbox" id="anon" checked> Post anonymously</label>
     <label>First name (optional)<input type="text" id="name" autocomplete="given-name"></label>
     <p><button class="btn" id="send">Add my leaf to the tree 🍁</button></p>

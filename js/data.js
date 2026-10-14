@@ -29,7 +29,11 @@ export async function subscribe(cb) {
   })));
 }
 
-export async function addLeaf({ text, name }) {
+export const NJIT_EMAIL = /^[a-z0-9._%+-]+@njit\.edu$/;
+
+export async function addLeaf({ text, name, email }) {
+  email = (email || "").trim().toLowerCase();
+  if (!NJIT_EMAIL.test(email)) throw new Error("NJIT email required");
   text = text.trim().slice(0, MAX_TEXT);
   name = (name || "").trim().slice(0, MAX_NAME);
   if (!text) throw new Error("Leaf is empty");
@@ -40,6 +44,10 @@ export async function addLeaf({ text, name }) {
     return;
   }
   await init();
-  await fs.addDoc(fs.collection(db, "leaves"), { text, name, createdAt: fs.serverTimestamp() });
+  // The email goes in a separate write-only collection so it is never readable from the public site.
+  const leaf = fs.doc(fs.collection(db, "leaves")), batch = fs.writeBatch(db);
+  batch.set(leaf, { text, name, createdAt: fs.serverTimestamp() });
+  batch.set(fs.doc(fs.collection(db, "submissions")), { email, leafId: leaf.id, createdAt: fs.serverTimestamp() });
+  await batch.commit();
 }
 export { MAX_TEXT, MAX_NAME };

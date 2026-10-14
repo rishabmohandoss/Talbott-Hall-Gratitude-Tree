@@ -1,4 +1,4 @@
-import { addLeaf, MAX_TEXT, MAX_NAME, DEMO } from "./data.js";
+import { addLeaf, MAX_TEXT, MAX_NAME, DEMO, NJIT_EMAIL } from "./data.js";
 
 const $ = id => document.getElementById(id);
 const steps = { pick: $("s-pick"), read: $("s-read"), edit: $("s-edit"), done: $("s-done") };
@@ -46,14 +46,17 @@ async function scan(file) {
 
 const upd = () => $("len").textContent = $("text").value.length + "/" + MAX_TEXT;
 $("text").oninput = upd;
+$("email").oninput = () => $("email").setCustomValidity("");
 for (const id of ["cam", "file"]) $(id).onchange = e => e.target.files[0] && scan(e.target.files[0]);
 $("typeonly").onclick = () => { $("preview").removeAttribute("src"); $("note").textContent = "Type what's on your leaf:"; $("text").value = ""; upd(); go("edit"); };
 $("retry").onclick = () => { $("cam").value = $("file").value = ""; go("pick"); };
 
 $("form").onsubmit = async e => {
   e.preventDefault();
+  const em = $("email").value.trim().toLowerCase();
+  if (!NJIT_EMAIL.test(em)) { $("email").setCustomValidity("Please use your @njit.edu email"); $("email").reportValidity(); return; }
   const b = $("send"); b.disabled = true; b.textContent = "Hanging your leaf…";
-  try { await addLeaf({ text: $("text").value, name: $("anon").checked ? "" : $("name").value }); go("done"); }
+  try { await addLeaf({ text: $("text").value, name: $("anon").checked ? "" : $("name").value, email: em }); go("done"); }
   catch (err) { console.error(err); alert("Something went wrong — please try again."); }
   b.disabled = false; b.textContent = "Add my leaf to the tree 🍁";
 };

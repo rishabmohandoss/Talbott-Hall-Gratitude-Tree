@@ -2,12 +2,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Talbott Hall Gratitude Tree</title><link rel="stylesheet" href="style.css"></head><body>
 <div class="banner" id="demo" hidden>Demo mode: leaves are saved only in this browser. Add your Firebase config to go live.</div>
-<header><h1>🍁 Talbott Hall Gratitude Tree</h1>
-<p>Every leaf is a goal, a thank-you, or a little encouragement from a resident.</p>
-<a class="btn" href="add.html">Add your leaf</a></header>
+<section class="hero">
+  <svg id="tree" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A maple tree in front of Talbott Hall, hung with residents' leaves"></svg>
+  <div class="title"><h1><span>Talbott Hall</span><em>Gratitude Tree</em></h1></div>
+  <div class="cap"><p>Grab a leaf, write your gratitude or goal, and scan the QR code to add it to <b>Talbott Hall’s digital tree</b> for everyone to see.</p><a class="btn" href="add.html">Add your leaf</a></div>
+</section>
 <main>
-<svg id="tree" role="img" aria-label="Tree growing with resident leaves"></svg>
-<p class="stats"><b id="count">0</b> leaves and growing · tap a leaf to read it</p>
+<p class="stats"><b id="count">0</b> resident leaves so far · tap a hanging leaf to read it</p>
+<h2 class="center">Help the tree grow 🍁</h2>
+<ol class="steps">
+  <li><b>1</b>Write a goal or a kind note on a paper leaf. Keep it!</li>
+  <li><b>2</b>Scan the QR code and snap a photo.</li>
+  <li><b>3</b>Fix the text if needed, then watch your leaf appear on the tree.</li>
+</ol>
+<p class="center"><a class="btn" href="add.html">Add your leaf</a></p>
 <h2>All leaves</h2><ul id="wall"></ul>
 </main>
 <div id="card" hidden><button aria-label="Close">×</button><p></p><small></small></div>

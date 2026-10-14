@@ -10,5 +10,16 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update, delete: if false;
     }
+
+    // Private: anyone can add their email, nobody can read it from the website (only you, in the Firebase console).
+    match /submissions/{id} {
+      allow read, update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['email','leafId','createdAt'])
+        && request.resource.data.email is string
+        && request.resource.data.email.matches('^[a-z0-9._%+-]+@njit[.]edu$')
+        && request.resource.data.email.size() <= 100
+        && request.resource.data.leafId is string
+        && request.resource.data.createdAt == request.time;
+    }
   }
 }
