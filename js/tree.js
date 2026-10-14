@@ -129,7 +129,7 @@ const wrap = t => { const w = t.split(/\s+/), L = []; let c = ""; for (const x o
 const card = document.getElementById("card"), wall = document.getElementById("wall");
 const show = l => {
   card.querySelector("p").textContent = "“" + l.text + "”";
-  card.querySelector("small").textContent = l.sample ? "Example leaf — add yours!" : (l.name ? "— " + l.name + " · " : "") + new Date(l.createdAt).toLocaleDateString();
+  card.querySelector("small").textContent = l.sample ? "— a resident" : (l.name ? "— " + l.name + " · " : "") + new Date(l.createdAt).toLocaleDateString();
   card.hidden = false;
 };
 card.querySelector("button").onclick = () => card.hidden = true;
@@ -137,7 +137,7 @@ card.querySelector("button").onclick = () => card.hidden = true;
 const seen = new Set(); let first = true;
 // Example leaves keep the tree looking alive before residents add theirs; real leaves replace them one by one.
 const SAMPLES = ["Proud of you", "You got this!", "Better days ahead", "Grateful for this community", "Finish the semester strong", "Call my mom more", "Be kind to myself", "Thankful for my roommate"]
-  .map((text, i) => ({ id: "sample" + i, text, name: "Example", createdAt: 0, sample: true }));
+  .map((text, i) => ({ id: "sample" + i, text, name: "", createdAt: 0, sample: true }));
 
 function render(real) {
   const leaves = [...SAMPLES.slice(0, Math.max(0, SAMPLES.length - real.length)), ...real];
@@ -172,7 +172,7 @@ function render(real) {
   wall.replaceChildren();
   [...leaves].reverse().forEach(l => {
     const li = document.createElement("li"), p = document.createElement("p"), sm = document.createElement("small");
-    p.textContent = l.text; sm.textContent = l.sample ? "— example leaf" : l.name ? "— " + l.name : "— a resident";
+    p.textContent = l.text; sm.textContent = l.name ? "— " + l.name : "— a resident";
     li.append(p, sm); wall.append(li);
   });
   if (!n) wall.innerHTML = "<li class='empty'>No leaves yet — be the first!</li>";
