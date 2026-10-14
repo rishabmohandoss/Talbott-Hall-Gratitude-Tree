@@ -1,7 +1,7 @@
-// Paste your Firebase web config here (Firebase console > Project settings > Your apps > Web).
-// While this is null the site runs in DEMO mode (leaves saved only in your own browser).
-export const firebaseConfig = null;
-// Example:
-// export const firebaseConfig = {
-//   apiKey: "...", authDomain: "...", projectId: "...", appId: "..."
-// };
+// Firebase web config (these keys are public by design; access is controlled by firestore.rules).
+export const firebaseConfig = {
+  apiKey: "AIzaSyAT19aXMCJLIg1DIuCaTGygXE9EYEM2y-Y",
+  authDomain: "talbott-tree-2026.firebaseapp.com",
+  projectId: "talbott-tree-2026",
+  appId: "1:430105926693:web:4bf5f2370ec4a3be30f3cc"
+};
