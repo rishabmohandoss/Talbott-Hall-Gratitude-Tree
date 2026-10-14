@@ -2,7 +2,7 @@ import { subscribe, DEMO } from "./data.js";
 
 const NS = "http://www.w3.org/2000/svg";
 const el = (n, a = {}) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
-const rng = s => () => (s = (s + 0x6D2B79F5) | 0, ((t => ((t = Math.imul(t ^ (t >>> 15), t | 1)) ^ (t + Math.imul(t ^ (t >>> 7), t | 61)) ^ t) >>> 0) / 4294967296)(s));
+const rng = s => () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), s | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 const R = rng(7);
 const f = n => n.toFixed(1);
 
