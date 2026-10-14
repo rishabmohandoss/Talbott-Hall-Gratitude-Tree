@@ -21,9 +21,18 @@ function prep(img) {
   return c;
 }
 
+const rotate = (src, deg) => {
+  if (!deg) return src;
+  const c = document.createElement("canvas"), swap = deg % 180;
+  c.width = swap ? src.height : src.width; c.height = swap ? src.width : src.height;
+  const x = c.getContext("2d"); x.translate(c.width / 2, c.height / 2); x.rotate(deg * Math.PI / 180); x.drawImage(src, -src.width / 2, -src.height / 2);
+  return c;
+};
+
 async function scan(file) {
   go("read");
   $("preview").src = URL.createObjectURL(file);
+  $("note").textContent = "";
   let text = "";
   try {
     const img = await createImageBitmap(file);
@@ -33,13 +42,26 @@ async function scan(file) {
       s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
       s.onload = ok; s.onerror = no; document.head.append(s);
     });
-    const r = await Tesseract.recognize(canvas, "eng", {
-      logger: m => { if (m.status === "recognizing text") $("pct").textContent = Math.round(m.progress * 100) + "%"; }
-    });
-    text = r.data.text.replace(/\s*\n\s*/g, " ").replace(/[|_~^<>{}\[\]\\]/g, "").trim();
-  } catch (e) { console.error(e); $("note").textContent = "We couldn't read the image automatically — just type your leaf below."; }
-  if (!text && !$("note").textContent) $("note").textContent = "We couldn't make out any text — handwriting can be tricky. Just type your leaf below.";
-  else if (text) $("note").textContent = "Here's what we read. Fix anything that's off:";
+    const worker = await Tesseract.createWorker("eng");
+    await worker.setParameters({ tessedit_pageseg_mode: "6" });
+    // People hold the paper any which way: try every orientation, keep the one it is most sure about.
+    let best = { score: 0, text: "" };
+    const turns = [0, 90, 270, 180];
+    for (let i = 0; i < turns.length; i++) {
+      $("pct").textContent = `Reading… ${i + 1}/${turns.length}`;
+      const { data } = await worker.recognize(rotate(canvas, turns[i]));
+      const good = (data.words || []).filter(w => w.confidence >= 60 && /[A-Za-z0-9]/.test(w.text));
+      const score = good.reduce((s, w) => s + w.confidence * w.text.length, 0);
+      if (score > best.score) best = { score, text: good.map(w => w.text).join(" ") };
+      if (good.length >= 2 && score > 400) break;
+    }
+    await worker.terminate();
+    if (best.score < 250) best.text = "";
+    text = best.text.replace(/[|_~^<>{}\[\]\\]/g, "").trim();
+  } catch (e) { console.error(e); }
+  $("note").textContent = text
+    ? "Here's what we read. Fix anything that's off:"
+    : "We couldn't read the handwriting (that's normal!) — just type your leaf below.";
   $("text").value = text.slice(0, MAX_TEXT);
   upd(); go("edit");
 }
